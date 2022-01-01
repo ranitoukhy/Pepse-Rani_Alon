@@ -31,8 +31,12 @@ public class Tree {
 
     }
     public void createInRange(int firstLocationX , int lastLocationX){
-        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
-        lastLocationX = (int)Math.floor((float)lastLocationX / Block.SIZE) * Block.SIZE;
+//        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
+//        lastLocationX = (int)Math.floor((float)lastLocationX / Block.SIZE) * Block.SIZE;
+
+        firstLocationX = Block.ROUND.apply((float)firstLocationX);
+        lastLocationX = Block.ROUND.apply((float)lastLocationX);
+
         for (int locX = firstLocationX;locX <= lastLocationX - Block.SIZE; locX += Block.SIZE){
             if (random.nextFloat() < 0.1){
                 createTree(locX);
@@ -42,15 +46,18 @@ public class Tree {
     private void createTree(int x){
 
         float groundHeight = getHeight.apply((float)x) - Block.SIZE;
-        System.out.println("IN TREE for x: "+x+" ground height is :"+groundHeight);
-        groundHeight = (float) (Math.floor(groundHeight / Block.SIZE) * Block.SIZE);
+//        groundHeight = (float) (Math.floor(groundHeight / Block.SIZE) * Block.SIZE);
+        groundHeight = Block.ROUND.apply(groundHeight);
+        float maxHeight = groundHeight-Block.SIZE*6;
 
-        for(float y=groundHeight; y > groundHeight-Block.SIZE*6; y-=Block.SIZE) {
+        for(float y=groundHeight; y >= maxHeight; y-=Block.SIZE) {
             Vector2 blockLocation = new Vector2(x, y);
             Renderable blockRenderable =
                     new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR));
             Block block = new Block(blockLocation, blockRenderable);
-            gameObjects.addGameObject(block);
+            gameObjects.addGameObject(block, groundLayer+1);
         }
+
+        Leaf.createTreeTop(gameObjects, new Vector2(5,5), new Vector2(x, maxHeight), groundLayer+2);
     }
 }

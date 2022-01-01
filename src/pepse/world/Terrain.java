@@ -37,13 +37,15 @@ public class Terrain {
     }
 
     public void createInRange(int minX, int maxX) {
-        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
-        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
+        minX = Block.ROUND.apply((float) minX);
+        maxX = Block.ROUND.apply((float) maxX);
+
+//        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
+//        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
         for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate+=30) {
             float preHeight = groundHeightAt(blockXCoordinate);
-            System.out.println("IN TERRAIN for x: "+blockXCoordinate+" ground height is :"+preHeight);
-            int YCoordinate =
-                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
+            int YCoordinate = Block.ROUND.apply(preHeight);
+//                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
 
             for (int i = 0; i < TERRAIN_DEPTH; i++ )
             {
