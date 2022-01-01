@@ -91,12 +91,6 @@ class Leaf extends Block {
         renderer().setRenderableAngle(currAngle);
     }
 
-    private void updateScaleAndAngle()
-    {
-        updateScale();
-        updateAngle();
-    }
-
     private void fall()
     {
         renderer().fadeOut(FADEOUT_TIME, this::die);
@@ -128,7 +122,7 @@ class Leaf extends Block {
         System.out.println("start life cycle");
         setTopLeftCorner(topLeftCorner);
         renderer().fadeIn(0);
-        new ScheduledTask(this, new Random().nextFloat(), true, this::updateScaleAndAngle);
+        new ScheduledTask(this, new Random().nextFloat(), true, () -> {updateScale(); updateAngle();});
         new ScheduledTask(
                 this,
                 new Random().nextInt(100),
