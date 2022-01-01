@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Terrain {
+    public static final String TOP_TAG = "top terrain";
     private final GameObjectCollection gameObjects;
     private final int groundLayer;
     private final float groundHeightAtX0;
@@ -54,7 +55,8 @@ public class Terrain {
 
                 Block block = new Block(new Vector2(blockXCoordinate,YCoordinate),
                         blockRenderable);
-                gameObjects.addGameObject(block);
+                block.setTag(TOP_TAG);
+                gameObjects.addGameObject(block, groundLayer);
 
                 YCoordinate += Block.SIZE;
             }

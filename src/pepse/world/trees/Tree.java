@@ -28,7 +28,6 @@ public class Tree {
         this.windowDimensions = windowDimensions;
         this.getHeight = getHeight;
         random = new Random();
-
     }
     public void createInRange(int firstLocationX , int lastLocationX){
 //        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
@@ -58,6 +57,6 @@ public class Tree {
             gameObjects.addGameObject(block, groundLayer+1);
         }
 
-        Leaf.createTreeTop(gameObjects, new Vector2(5,5), new Vector2(x, maxHeight), groundLayer+2);
+        TreeTop.create(gameObjects, new Vector2(5,5), new Vector2(x, maxHeight), groundLayer+2);
     }
 }

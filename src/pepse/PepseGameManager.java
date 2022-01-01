@@ -41,7 +41,5 @@ public class PepseGameManager extends GameManager {
                 terrain::groundHeightAt);
 
         tree.createInRange(0, (int) windowController.getWindowDimensions().x());
-
-
     }
 }
