@@ -44,8 +44,8 @@ class Leaf extends Block {
 
     private static final float minScale = 0.7f;
     private static final float maxScale = 1f;
-    private static final float VELOCITY_Y = 30;
-    private static final float VELOCITY_X = 5;
+    private static final float VELOCITY_Y = 50;
+    private static final float VELOCITY_X = 20;
 
 
     private float currAngle = 0;
@@ -53,8 +53,8 @@ class Leaf extends Block {
 
     private boolean scaleUp;
     private boolean angleUp;
-    private Transition horizontalTransition;
-    private Vector2 topLeftCorner;
+    private Transition<Float> horizontalTransition;
+    private final Vector2 topLeftCorner;
 
     public Leaf(Vector2 topLeftCorner) {
         super(topLeftCorner, new RectangleRenderable(ColorSupplier.approximateColor(BASE_LEAF_COLOR)));
@@ -95,13 +95,13 @@ class Leaf extends Block {
     {
         renderer().fadeOut(FADEOUT_TIME, this::die);
         transform().setVelocityY(VELOCITY_Y);
-        horizontalTransition = new Transition(
+        horizontalTransition = new Transition<>(
                 this,
-                vel -> transform().setVelocityX((float)vel),
+                vel -> transform().setVelocityX(vel),
                 VELOCITY_X,
                 -VELOCITY_X,
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
-                8,
+                5,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH,
                 null
         );
@@ -139,7 +139,7 @@ class Leaf extends Block {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
+        transform().setVelocityX(0);
         removeComponent(horizontalTransition);
-        die();
     }
 }

@@ -26,8 +26,8 @@ public class Sun{
         sun.setTag(TAG);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 
-        Transition transition = new Transition(sun,
-                deg -> sun.setCenter(getLocation((float)deg, windowsDimensions)),
+        Transition<Float> transition = new Transition<>(sun,
+                deg -> sun.setCenter(getLocation(deg, windowsDimensions)),
                 0f,360f,
                 Transition.LINEAR_INTERPOLATOR_FLOAT,
                 cycleLength, Transition.TransitionType.TRANSITION_LOOP,null);
