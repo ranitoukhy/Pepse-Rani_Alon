@@ -53,8 +53,10 @@ class Leaf extends Block {
 
     private boolean scaleUp;
     private boolean angleUp;
+
     private Transition<Float> horizontalTransition;
     private final Vector2 topLeftCorner;
+    private boolean onGround = false;
 
     public Leaf(Vector2 topLeftCorner) {
         super(topLeftCorner, new RectangleRenderable(ColorSupplier.approximateColor(BASE_LEAF_COLOR)));
@@ -139,7 +141,14 @@ class Leaf extends Block {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        transform().setVelocityX(0);
         removeComponent(horizontalTransition);
+        onGround = true;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        if(onGround && transform().getVelocity().x() != 0)
+            transform().setVelocityX(0);
     }
 }
