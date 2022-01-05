@@ -49,16 +49,16 @@ public class Terrain {
     }
 
     public void createInRange(int minX, int maxX) {
-        System.out.println("creating range: "+minX+" - "+maxX);
-        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
-        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
-
-        if(objectsAtDelta.size() == 0) {
-            this.minX = minX;
-            this.maxX = maxX;
-        }
-
-        int removeBlock = 0;
+//        System.out.println("creating range: "+minX+" - "+maxX);
+//        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
+//        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
+//
+//        if(objectsAtDelta.size() == 0) {
+//            this.minX = minX;
+//            this.maxX = maxX;
+//        }
+//
+//        int removeBlock = 0;
 
         minX = Block.ROUND.apply((float) minX);
         maxX = Block.ROUND.apply((float) maxX);
@@ -77,8 +77,8 @@ public class Terrain {
             System.out.println("creating for "+blockXCoordinate);
             ArrayList<GameObject> objects = new ArrayList<>();
             float preHeight = groundHeightAt(blockXCoordinate);
-            int YCoordinate =
-                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
+//            int YCoordinate =
+//                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
             int YCoordinate = Block.ROUND.apply(preHeight);
 //                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
 

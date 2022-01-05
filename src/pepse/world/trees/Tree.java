@@ -33,9 +33,6 @@ public class Tree {
         random = new Random();
     }
     public void createInRange(int firstLocationX , int lastLocationX){
-//        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
-//        lastLocationX = (int)Math.floor((float)lastLocationX / Block.SIZE) * Block.SIZE;
-
         firstLocationX = Block.ROUND.apply((float)firstLocationX);
         lastLocationX = Block.ROUND.apply((float)lastLocationX);
 
@@ -52,26 +49,26 @@ public class Tree {
              EndlessWorldUtil.removeCol(locX,gameObjects);
         }
     }
-    private void createTree(int x){
+    private void createTree(int x) {
 
-        float groundHeight = getHeight.apply((float)x) - Block.SIZE;
-//        groundHeight = (float) (Math.floor(groundHeight / Block.SIZE) * Block.SIZE);
+        float groundHeight = getHeight.apply((float) x) - Block.SIZE;
         groundHeight = Block.ROUND.apply(groundHeight);
-        float maxHeight = groundHeight-Block.SIZE*6;
+        float maxHeight = groundHeight - Block.SIZE * 6;
 
-        for(float y=groundHeight; y >= maxHeight; y-=Block.SIZE) {
-        System.out.println("IN TREE for x: "+x+" ground height is :"+groundHeight);
-        groundHeight = (float) (Math.floor(groundHeight / Block.SIZE) * Block.SIZE);
-        for(float y=groundHeight; y > groundHeight-Block.SIZE*6; y-=Block.SIZE) {
-            Vector2 blockLocation = new Vector2(x, y);
-            Renderable blockRenderable =
-                    new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR));
-            Block block = new Block(blockLocation, blockRenderable);
-            EndlessWorldUtil.addObject(x,block,gameObjects);
-            //gameObjects.addGameObject(block);
-            gameObjects.addGameObject(block, groundLayer+1);
+//        for (float y = groundHeight; y >= maxHeight; y -= Block.SIZE) {
+//            System.out.println("IN TREE for x: " + x + " ground height is :" + groundHeight);
+//            groundHeight = (float) (Math.floor(groundHeight / Block.SIZE) * Block.SIZE);
+            for (float y = groundHeight; y > groundHeight - Block.SIZE * 6; y -= Block.SIZE) {
+                Vector2 blockLocation = new Vector2(x, y);
+                Renderable blockRenderable =
+                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_TREE_COLOR));
+                Block block = new Block(blockLocation, blockRenderable);
+                EndlessWorldUtil.addObject(x, block, gameObjects);
+                //gameObjects.addGameObject(block);
+//                gameObjects.addGameObject(block, groundLayer + 1);
+            }
+
+            TreeTop.create(gameObjects, new Vector2(5, 5), new Vector2(x, maxHeight), groundLayer + 2);
         }
-
-        TreeTop.create(gameObjects, new Vector2(5,5), new Vector2(x, maxHeight), groundLayer+2);
-    }
+    //}
 }
