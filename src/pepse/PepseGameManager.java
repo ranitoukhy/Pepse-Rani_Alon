@@ -49,12 +49,13 @@ public class PepseGameManager extends GameManager {
         GameObject halo = SunHalo.create(gameObjects(), Layer.BACKGROUND + 2, sun, haloColor);
         tree = new Tree(gameObjects(),Layer.STATIC_OBJECTS,
                 windowController.getWindowDimensions(),
-                terrain::groundHeightAt);
+                terrain::groundHeightAt,
+                30);
 
         tree.createInRange(0, (int) windowController.getWindowDimensions().x());
         Vector2 initialAvatarLocation =
                 new Vector2(windowController.getWindowDimensions().x()/2 + Block.SIZE,
-                terrain.groundHeightAt(windowController.getWindowDimensions().x()/2) );
+                terrain.groundHeightAt(windowController.getWindowDimensions().x()/2) - Block.SIZE );
         avatar = Avatar.create(gameObjects(),Layer.DEFAULT, initialAvatarLocation,
                 inputListener,imageReader);
         avatar.physics().preventIntersectionsFromDirection(Vector2.ZERO);

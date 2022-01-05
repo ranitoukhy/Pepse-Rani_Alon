@@ -62,16 +62,6 @@ class Leaf extends Block {
         super(topLeftCorner, new RectangleRenderable(ColorSupplier.approximateColor(BASE_LEAF_COLOR)));
         this.topLeftCorner = topLeftCorner;
         setTag(TAG);
-//        new Transition(this,
-//                deg -> renderer().setRenderableAngle((float)deg),
-//                -30f,30f,
-//                Transition.LINEAR_INTERPOLATOR_FLOAT,
-//                4, Transition.TransitionType.TRANSITION_BACK_AND_FORTH,null);
-//        new Transition(this,
-//                scale -> setDimensions(new Vector2(Block.SIZE,Block.SIZE).mult((float)scale)),
-//                1f,0.7f,
-//                Transition.LINEAR_INTERPOLATOR_FLOAT,
-//                4, Transition.TransitionType.TRANSITION_BACK_AND_FORTH,null);
         physics().setMass(0);
         startLifeCycle();
     }
@@ -111,7 +101,6 @@ class Leaf extends Block {
 
     private void die()
     {
-        System.out.println("die");
         new ScheduledTask(
                 this,
                 new Random().nextInt(20),
@@ -121,7 +110,6 @@ class Leaf extends Block {
     }
 
     private void startLifeCycle() {
-        System.out.println("start life cycle");
         setTopLeftCorner(topLeftCorner);
         renderer().fadeIn(0);
         new ScheduledTask(this, new Random().nextFloat(), true, () -> {updateScale(); updateAngle();});

@@ -23,10 +23,7 @@ public class Terrain {
     private static final int TERRAIN_DEPTH = 20;
     private Random random;
     private PerlinNoise perlinNoise;
-    private int minX;
-    private int maxX;
 
-    // objectAtDelta[k] = all objects with x = avater.x + k
     private HashMap<Integer, ArrayList<GameObject>> objectsAtDelta;
 
     public Terrain(GameObjectCollection gameObjects,
@@ -49,38 +46,16 @@ public class Terrain {
     }
 
     public void createInRange(int minX, int maxX) {
-//        System.out.println("creating range: "+minX+" - "+maxX);
-//        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
-//        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
-//
-//        if(objectsAtDelta.size() == 0) {
-//            this.minX = minX;
-//            this.maxX = maxX;
-//        }
-//
-//        int removeBlock = 0;
 
         minX = Block.ROUND.apply((float) minX);
         maxX = Block.ROUND.apply((float) maxX);
 
-//        minX = (int)Math.floor((float)minX / Block.SIZE) * Block.SIZE;
-//        maxX = (int)Math.floor((float)maxX / Block.SIZE) * Block.SIZE;
         for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate+=30) {
             if(EndlessWorldUtil.containsKey(blockXCoordinate))
                 continue;
 
-//            if(blockXCoordinate < this.minX)
-//                removeBlock += 1;
-//            if(blockXCoordinate > this.maxX)
-//                removeBlock -= 1;
-
-            System.out.println("creating for "+blockXCoordinate);
-            ArrayList<GameObject> objects = new ArrayList<>();
             float preHeight = groundHeightAt(blockXCoordinate);
-//            int YCoordinate =
-//                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
             int YCoordinate = Block.ROUND.apply(preHeight);
-//                    (int)Math.floor(preHeight / Block.SIZE) * Block.SIZE;
 
             for (int i = 0; i < TERRAIN_DEPTH; i++ )
             {
@@ -90,12 +65,11 @@ public class Terrain {
                 Block block = new Block(new Vector2(blockXCoordinate,YCoordinate),
                         blockRenderable);
 
-                objects.add(block);
-                EndlessWorldUtil.addObject(blockXCoordinate, block,gameObjects);
+                block.setTag(TOP_TAG);
+                EndlessWorldUtil.addObject(blockXCoordinate, block,gameObjects, groundLayer);
 
 //                gameObjects.addGameObject(block);
-                block.setTag(TOP_TAG);
-                gameObjects.addGameObject(block, groundLayer);
+//                gameObjects.addGameObject(block, groundLayer);
 
                 YCoordinate += Block.SIZE;
             }
@@ -109,19 +83,12 @@ public class Terrain {
     }
 
     public void removeInRange(int minX, int maxX) {
-        System.out.println("removing range: " + minX + " - " + maxX);
-        minX = (int) Math.floor((float) minX / Block.SIZE) * Block.SIZE;
-        maxX = (int) Math.floor((float) maxX / Block.SIZE) * Block.SIZE;
-
-        if (objectsAtDelta.size() == 0) {
-            this.minX = minX;
-            this.maxX = maxX;
-        }
+        minX = Block.ROUND.apply((float) minX);
+        maxX = Block.ROUND.apply((float) maxX);
 
         for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate += 30) {
             if (!objectsAtDelta.containsKey(blockXCoordinate))
                 continue;
-            System.out.println("removing for "+blockXCoordinate);
 //            for (GameObject obj : objectsAtDelta.get(blockXCoordinate))
 //                EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
             EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);

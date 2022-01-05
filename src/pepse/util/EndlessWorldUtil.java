@@ -6,34 +6,39 @@ import danogl.collisions.Layer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Supplier;
 
 public class EndlessWorldUtil {
 
-    // objectAtDelta[k] = all objects with x = avater.x + k
-    private static HashMap<Integer, ArrayList<GameObject>> objectsAtDelta = new HashMap<>();
+    private static HashMap<Integer, ArrayList<GameObject>> objectsAtX = new HashMap<>();
+    private static HashMap<String, Integer> layersByTags = new HashMap<>();
 
     public static void addObject(int x, GameObject obj, GameObjectCollection gameObjects) {
-        if (!objectsAtDelta.containsKey(x)){
-            objectsAtDelta.put(x, new ArrayList<>());
+        addObject(x, obj, gameObjects, Layer.DEFAULT);
+    }
+
+    public static void addObject(int x, GameObject obj, GameObjectCollection gameObjects, int layer) {
+        if (!objectsAtX.containsKey(x)){
+            objectsAtX.put(x, new ArrayList<>());
         }
 
-        objectsAtDelta.get(x).add(obj);
-        gameObjects.addGameObject(obj, Layer.STATIC_OBJECTS);
+        objectsAtX.get(x).add(obj);
+        layersByTags.put(obj.getTag(), layer);
+        gameObjects.addGameObject(obj, layer);
     }
 
     public static void removeCol(int x, GameObjectCollection gameObjects) {
-        if (!objectsAtDelta.containsKey(x)){
+        if (!objectsAtX.containsKey(x)){
             return;
         }
 
-        for (GameObject obj : objectsAtDelta.get(x)) {
-            gameObjects.removeGameObject(obj, Layer.STATIC_OBJECTS);
+        for (GameObject obj : objectsAtX.get(x)) {
+            int layer = layersByTags.getOrDefault(obj.getTag(), Layer.DEFAULT);
+            gameObjects.removeGameObject(obj, layersByTags.get(obj.getTag()));
         }
-        objectsAtDelta.remove(x);
+        objectsAtX.remove(x);
     }
     public static boolean containsKey(int x){
-        return objectsAtDelta.containsKey(x);
+        return objectsAtX.containsKey(x);
     }
 
 
