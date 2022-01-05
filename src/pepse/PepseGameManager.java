@@ -89,11 +89,11 @@ public class PepseGameManager extends GameManager {
                     maxX - (int)windowController.getWindowDimensions().x() :
                     maxX + (int)windowController.getWindowDimensions().x();
 
-            terrain.createInRange(minX, maxX);
-            terrain.removeInRange(minRemoveX, maxRemoveX);
+            terrain.createInRange(minX - 30, maxX + 30);
+            terrain.removeInRange(minRemoveX + 30, maxRemoveX - 30);
 
-            tree.createInRange(minX, maxX);
-            tree.removeInRange(minRemoveX,maxRemoveX);
+            tree.createInRange(minX - 30, maxX + 30);
+            tree.removeInRange(minRemoveX + 30,maxRemoveX - 30);
 
         }
 

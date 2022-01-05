@@ -22,7 +22,7 @@ import java.awt.event.KeyEvent;
     public class Avatar extends GameObject {
         private static final float VELOCITY_X = 400;
 //        private static final float VELOCITY_Y = -650;
-private static final float VELOCITY_Y = -200;
+private static final float VELOCITY_Y = -300;
         private static final float GRAVITY = 600;
         private static final Color AVATAR_COLOR = Color.DARK_GRAY;
         private static ImageRenderable IDLE_RENDER;
@@ -94,7 +94,7 @@ private static final float VELOCITY_Y = -200;
                 transform().setAccelerationY(200);
                 energy --;
             }
-            if (getVelocity().y() > 400){transform().setVelocityY(400);}
+            if (getVelocity().y() > 200){transform().setVelocityY(200);}
         }
         public static Avatar create(GameObjectCollection gameObjects,
                                     int layer, Vector2 topLeftCorner,
