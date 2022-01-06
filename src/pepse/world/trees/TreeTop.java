@@ -9,28 +9,64 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
+import pepse.util.EndlessWorldUtil;
 import pepse.world.Block;
+import pepse.world.Creatable;
 import pepse.world.Terrain;
 
 import java.awt.*;
 import java.util.Random;
 
-public class TreeTop {
-    public static void create(GameObjectCollection gameObjects, Vector2 dimensions, Vector2 trunkTop, int layer)
-    {
-        int firstX = Block.ROUND.apply(trunkTop.x() - ((int)(dimensions.x()/2)*Block.SIZE));
-        int firstY = Block.ROUND.apply(trunkTop.y() - ((int)(dimensions.y()/2)*Block.SIZE));
+public class TreeTop implements Creatable {
+    private GameObjectCollection gameObjects;
+    private int treeX;
+    private int treeHeight;
+    private int radius;
+    private int layer;
 
-        Vector2 right = new Vector2(Block.SIZE, 0);
-        for (int i = 0; i < dimensions.y(); i++)
+    public TreeTop(GameObjectCollection gameObjects, int treeX, int treeHeight, int radius, int layer) {
+        this.gameObjects = gameObjects;
+        this.treeX = treeX;
+        this.treeHeight = treeHeight;
+        this.radius = radius;
+        this.layer = layer;
+
+        createInRange(treeX - radius*Block.SIZE, treeX+1+radius*Block.SIZE);
+    }
+
+//    public static void create(GameObjectCollection gameObjects, Vector2 dimensions, Vector2 trunkTop, int layer)
+//    {
+//        int firstX = Block.ROUND.apply(trunkTop.x() - ((int)(dimensions.x()/2)*Block.SIZE));
+//        int firstY = Block.ROUND.apply(trunkTop.y() - ((int)(dimensions.y()/2)*Block.SIZE));
+//
+//        Vector2 right = new Vector2(Block.SIZE, 0);
+//        for (int i = 0; i < dimensions.y(); i++)
+//        {
+//            Vector2 position = new Vector2(firstX, firstY+(Block.SIZE*i));
+//            for (int j = 0; j < dimensions.x(); j++)
+//            {
+//                gameObjects.addGameObject(new Leaf(position));
+//                position = position.add(right);
+//            }
+//        }
+//    }
+
+    @Override
+    public GameObjectCollection getGameObjects() {
+        return this.gameObjects;
+    }
+
+    @Override
+    public void create(int x) {
+        for (int y = treeHeight-radius*Block.SIZE; y <= treeHeight+radius*Block.SIZE; y+=Block.SIZE)
         {
-            Vector2 position = new Vector2(firstX, firstY+(Block.SIZE*i));
-            for (int j = 0; j < dimensions.x(); j++)
-            {
-                gameObjects.addGameObject(new Leaf(position));
-                position = position.add(right);
-            }
+            EndlessWorldUtil.addObject(x, new Leaf(new Vector2(x,y)), gameObjects, layer);
         }
+    }
+
+    @Override
+    public String getTag() {
+        return Leaf.TAG+treeX;
     }
 }
 

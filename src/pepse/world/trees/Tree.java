@@ -8,6 +8,7 @@ import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.util.EndlessWorldUtil;
 import pepse.world.Block;
+import pepse.world.Creatable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,14 +16,16 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
 
-public class Tree {
+public class Tree implements Creatable {
     private GameObjectCollection gameObjects;
+    public String TAG = "tree";
     private int groundLayer;
     private Vector2 windowDimensions;
     private Function<Float, Float> getHeight;
     private final Color BASE_TREE_COLOR = new Color(100, 50, 20);
     private final Random random;
     private final int seed;
+    private TreeTop top;
 
     public Tree(
             GameObjectCollection gameObjects,
@@ -38,23 +41,41 @@ public class Tree {
         this.seed = seed;
     }
 
-    public void createInRange(int firstLocationX , int lastLocationX){
-        firstLocationX = Block.ROUND.apply((float)firstLocationX);
-        lastLocationX = Block.ROUND.apply((float)lastLocationX);
+//    public void createInRange(int firstLocationX , int lastLocationX){
+//        firstLocationX = Block.ROUND.apply((float)firstLocationX);
+//        lastLocationX = Block.ROUND.apply((float)lastLocationX);
+//
+//        for (int locX = firstLocationX;locX <= lastLocationX - Block.SIZE; locX += Block.SIZE){
+//            if (new Random(Objects.hash(locX, seed)).nextFloat() < 0.1){
+//                createTree(locX);
+//            }
+//        }
+//    }
 
-        for (int locX = firstLocationX;locX <= lastLocationX - Block.SIZE; locX += Block.SIZE){
-            if (new Random(Objects.hash(locX, seed)).nextFloat() < 0.1){
-                createTree(locX);
-            }
+//    public void removeInRange(int firstLocationX , int lastLocationX){
+//        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
+//        lastLocationX = (int)Math.floor((float)lastLocationX / Block.SIZE) * Block.SIZE;
+//        for (int locX = firstLocationX;locX <= lastLocationX - Block.SIZE; locX += Block.SIZE){
+//             EndlessWorldUtil.removeCol(locX,gameObjects);
+//        }
+//    }
+
+    @Override
+    public GameObjectCollection getGameObjects() {
+        return this.gameObjects;
+    }
+
+    @Override
+    public void create(int x) {
+        if (new Random(Objects.hash(x, seed)).nextFloat() < 0.1){
+            System.out.println("creating at x="+x);
+            createTree(x);
         }
     }
 
-    public void removeInRange(int firstLocationX , int lastLocationX){
-        firstLocationX = (int)Math.floor((float)firstLocationX / Block.SIZE) * Block.SIZE;
-        lastLocationX = (int)Math.floor((float)lastLocationX / Block.SIZE) * Block.SIZE;
-        for (int locX = firstLocationX;locX <= lastLocationX - Block.SIZE; locX += Block.SIZE){
-             EndlessWorldUtil.removeCol(locX,gameObjects);
-        }
+    @Override
+    public String getTag() {
+        return TAG;
     }
 
     private void createTree(int x) {
@@ -70,6 +91,7 @@ public class Tree {
                 EndlessWorldUtil.addObject(x, block, gameObjects, groundLayer + 1);
             }
 
-            TreeTop.create(gameObjects, new Vector2(5, 5), new Vector2(x, maxHeight), groundLayer + 2);
+//            TreeTop.create(gameObjects, new Vector2(5, 5), new Vector2(x, maxHeight), groundLayer + 2);
+            top = new TreeTop(gameObjects, x, (int) maxHeight, 3, groundLayer+2);
         }
 }

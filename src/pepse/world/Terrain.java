@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Terrain {
+public class Terrain implements Creatable{
     public static final String TOP_TAG = "top terrain";
     private final GameObjectCollection gameObjects;
     private final int groundLayer;
@@ -39,60 +39,83 @@ public class Terrain {
         objectsAtDelta = new HashMap<>();
     }
     public float groundHeightAt(float x) {
-        //return groundHeightAtX0;
         return groundHeightAtX0 + Block.SIZE * ((int)(perlinNoise.noise(x/Block.SIZE) * 28));
-
-//        return (float) ((Math.cos(x)+Math.sin(x))*15+groundHeightAtX0);
     }
 
-    public void createInRange(int minX, int maxX) {
+//    public void createInRange(int minX, int maxX) {
+//
+//        minX = Block.ROUND.apply((float) minX);
+//        maxX = Block.ROUND.apply((float) maxX);
+//
+//        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate+=30) {
+//            if(EndlessWorldUtil.containsKey(blockXCoordinate))
+//                continue;
+//
+//            float preHeight = groundHeightAt(blockXCoordinate);
+//            int YCoordinate = Block.ROUND.apply(preHeight);
+//
+//            for (int i = 0; i < TERRAIN_DEPTH; i++ )
+//            {
+//                Renderable blockRenderable =
+//                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
+//
+//                Block block = new Block(new Vector2(blockXCoordinate,YCoordinate),
+//                        blockRenderable);
+//
+//                block.setTag(TOP_TAG);
+//                EndlessWorldUtil.addObject(blockXCoordinate, block,gameObjects, groundLayer);
+//
+////                gameObjects.addGameObject(block);
+////                gameObjects.addGameObject(block, groundLayer);
+//
+//                YCoordinate += Block.SIZE;
+//            }
+//
+//
+//
+//        }
+//    }
+////
+//    public void removeInRange(int minX, int maxX) {
+//        minX = Block.ROUND.apply((float) minX);
+//        maxX = Block.ROUND.apply((float) maxX);
+//
+//        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate += 30) {
+//            if (!objectsAtDelta.containsKey(blockXCoordinate))
+//                continue;
+////            for (GameObject obj : objectsAtDelta.get(blockXCoordinate))
+////                EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
+//            EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
+//            //objectsAtDelta.remove(blockXCoordinate);
+//        }
+//    }
 
-        minX = Block.ROUND.apply((float) minX);
-        maxX = Block.ROUND.apply((float) maxX);
-
-        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate+=30) {
-            if(EndlessWorldUtil.containsKey(blockXCoordinate))
-                continue;
-
-            float preHeight = groundHeightAt(blockXCoordinate);
-            int YCoordinate = Block.ROUND.apply(preHeight);
-
-            for (int i = 0; i < TERRAIN_DEPTH; i++ )
-            {
-                Renderable blockRenderable =
-                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
-
-                Block block = new Block(new Vector2(blockXCoordinate,YCoordinate),
-                        blockRenderable);
-
-                block.setTag(TOP_TAG);
-                EndlessWorldUtil.addObject(blockXCoordinate, block,gameObjects, groundLayer);
-
-//                gameObjects.addGameObject(block);
-//                gameObjects.addGameObject(block, groundLayer);
-
-                YCoordinate += Block.SIZE;
-            }
-
-
-
-        }
-
-
-
+    @Override
+    public GameObjectCollection getGameObjects() {
+        return this.gameObjects;
     }
 
-    public void removeInRange(int minX, int maxX) {
-        minX = Block.ROUND.apply((float) minX);
-        maxX = Block.ROUND.apply((float) maxX);
+    @Override
+    public void create(int x) {
+        float preHeight = groundHeightAt(x);
+        int YCoordinate = Block.ROUND.apply(preHeight);
 
-        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate += 30) {
-            if (!objectsAtDelta.containsKey(blockXCoordinate))
-                continue;
-//            for (GameObject obj : objectsAtDelta.get(blockXCoordinate))
-//                EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
-            EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
-            //objectsAtDelta.remove(blockXCoordinate);
+        for (int i = 0; i < TERRAIN_DEPTH; i++ )
+        {
+            Renderable blockRenderable =
+                    new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
+
+            Block block = new Block(new Vector2(x,YCoordinate),
+                    blockRenderable);
+
+            block.setTag(TOP_TAG);
+            EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer);
+            YCoordinate += Block.SIZE;
         }
+    }
+
+    @Override
+    public String getTag() {
+        return TOP_TAG;
     }
 }
