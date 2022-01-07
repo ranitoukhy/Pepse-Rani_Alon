@@ -31,10 +31,10 @@ private static final float VELOCITY_Y = -300;
         private float lastX;
 
         private int energy;
-        private static final String IDLE = "src/pepse/world/sprite-idle.png";
-        private static final String WALK = "src/pepse/world/sprite-walk.png";
-        private static final String WALK2 = "src/pepse/world/sprite-walk2.png";
-        private static final String FLY = "src/pepse/world/sprite-fly.png";
+        private static final String IDLE = "src/pepse/world/den-idle.png";
+        private static final String WALK = "src/pepse/world/dan-walk.png";
+        private static final String WALK2 = "src/pepse/world/dan-walk2.png";
+        private static final String FLY = "src/pepse/world/dan-fly.png";
         private static  AnimationRenderable WALK_ANIMATION;
         private static Renderable FLY_RENDERABLE;
 

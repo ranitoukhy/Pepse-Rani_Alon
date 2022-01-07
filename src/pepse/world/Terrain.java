@@ -2,6 +2,7 @@ package pepse.world;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
@@ -108,8 +109,13 @@ public class Terrain implements Creatable{
             Block block = new Block(new Vector2(x,YCoordinate),
                     blockRenderable);
 
-            block.setTag(TOP_TAG);
-            EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer);
+            if(i == 0) {
+                block.setTag(TOP_TAG);
+                EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer);
+            } else {
+                EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer+1);
+            }
+
             YCoordinate += Block.SIZE;
         }
     }

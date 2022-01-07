@@ -14,7 +14,7 @@ public class EndlessWorldUtil {
     private static HashMap<Integer, ArrayList<String>> tagsByX = new HashMap<>();
 
     public static void addObject(int x, GameObject obj, GameObjectCollection gameObjects) {
-        addObject(x, obj, gameObjects, Layer.DEFAULT);
+        addObject(x, obj, gameObjects, Layer.STATIC_OBJECTS);
     }
 
     public static void addObject(int x, GameObject obj, GameObjectCollection gameObjects, int layer) {
@@ -28,7 +28,6 @@ public class EndlessWorldUtil {
     }
 
     public static void addTag(int x, String tag) {
-        System.out.println("adding tag: "+tag);
         if (!tagsByX.containsKey(x)){
             tagsByX.put(x, new ArrayList<>());
         }
@@ -40,9 +39,8 @@ public class EndlessWorldUtil {
         if (!objectsAtX.containsKey(x)){
             return;
         }
-        System.out.println("removing x:"+x);
         for (GameObject obj : objectsAtX.get(x)) {
-            int layer = layersByTags.getOrDefault(obj.getTag(), Layer.DEFAULT);
+            int layer = layersByTags.getOrDefault(obj.getTag(), Layer.STATIC_OBJECTS);
             gameObjects.removeGameObject(obj, layer);
         }
         objectsAtX.remove(x);
