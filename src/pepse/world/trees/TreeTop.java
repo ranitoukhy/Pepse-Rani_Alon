@@ -17,6 +17,7 @@ import pepse.world.Terrain;
 import java.awt.*;
 import java.util.Random;
 
+
 public class TreeTop implements Creatable {
     private GameObjectCollection gameObjects;
     private int treeX;

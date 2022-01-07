@@ -9,6 +9,9 @@ import danogl.util.Vector2;
 
 import java.awt.*;
 
+/**
+ * a class responsible for the night transition and display
+ */
 public class Night {
     public static final String TAG = "night";
     private static final Float MIDNIGHT_OPACITY = 0.5f;

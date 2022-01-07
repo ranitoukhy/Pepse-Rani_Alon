@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Terrain class - a class responsible for building the ground of the game (therefore it
+ * implements the Createable interface)
+ */
 public class Terrain implements Creatable{
     public static final String TOP_TAG = "top terrain";
     private final GameObjectCollection gameObjects;
@@ -23,10 +27,15 @@ public class Terrain implements Creatable{
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final int TERRAIN_DEPTH = 20;
     private Random random;
-    private PerlinNoise perlinNoise;
+    private final PerlinNoise perlinNoise;
 
-    private HashMap<Integer, ArrayList<GameObject>> objectsAtDelta;
-
+    /**
+     * Constructor of the Terrain - initialises values necessary for creating the ground
+     * @param gameObjects: the game object collection that we'll add the trees to.
+     * @param groundLayer the layer of the ground of the game
+     * @param windowDimensions 2D vector that represents the window dimensions
+     * @param seed a parameter that will be sent to the Random instance
+     */
     public Terrain(GameObjectCollection gameObjects,
                    int groundLayer, Vector2 windowDimensions,
                    int seed) {
@@ -37,8 +46,11 @@ public class Terrain implements Creatable{
         perlinNoise = new PerlinNoise();
         perlinNoise.setSeed(seed);
 
-        objectsAtDelta = new HashMap<>();
     }
+
+    /**
+     * a function that returns the ground height at a given x coordinate
+     */
     public float groundHeightAt(float x) {
         return groundHeightAtX0 + Block.SIZE * ((int)(perlinNoise.noise(x/Block.SIZE) * 28));
     }
@@ -96,6 +108,9 @@ public class Terrain implements Creatable{
         return this.gameObjects;
     }
 
+    /**
+     * a function that creates a column of blocks given a current x coordinate
+     */
     @Override
     public void create(int x) {
         float preHeight = groundHeightAt(x);
@@ -108,7 +123,8 @@ public class Terrain implements Creatable{
 
             Block block = new Block(new Vector2(x,YCoordinate),
                     blockRenderable);
-
+            //set tag only for the top block layer in order to avoid unnecessary handling of
+            // low - level brick collisions with the avatar
             if(i == 0) {
                 block.setTag(TOP_TAG);
                 EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer);

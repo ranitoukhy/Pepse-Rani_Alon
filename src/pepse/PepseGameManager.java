@@ -22,7 +22,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * a class that represents the game manager.
+ */
 public class PepseGameManager extends GameManager {
+    public static final int INDENTATION_X_VALUE = 30;
     private static Avatar avatar;
     private static Terrain terrain;
     private static Tree tree;
@@ -31,6 +35,9 @@ public class PepseGameManager extends GameManager {
         new PepseGameManager().run();
     }
 
+    /**
+     * a function that initialises the game. builds all necessary game objects.
+     */
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
@@ -64,18 +71,21 @@ public class PepseGameManager extends GameManager {
                 windowController.getWindowDimensions().mult(0.5f).subtract(initialAvatarLocation),
                 windowController.getWindowDimensions(),
                 windowController.getWindowDimensions()));
-        //new Platformer().run();
 
 
 
     }
 
+    /**
+     * a function that updates each frame of the game. main functionality is to keep the endless
+     * world mechanism.
+     * @param deltaTime current time
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
 
         int delta = (int)avatar.getDelta();
-//        int deltaInBlocks = (int)Math.floor(delta / Block.SIZE);
         if(delta != 0) {
             int minX = (delta > 0)? (int)avatar.getCenter().x() +(int)windowController.getWindowDimensions().x()/2:
                     (int)avatar.getCenter().x()-(int)windowController.getWindowDimensions().x()/2+delta;
@@ -89,19 +99,18 @@ public class PepseGameManager extends GameManager {
                     maxX - (int)windowController.getWindowDimensions().x() :
                     maxX + (int)windowController.getWindowDimensions().x();
 
-            terrain.createInRange(minX - 30, maxX + 30);
-            terrain.removeInRange(minRemoveX + 30, maxRemoveX - 30);
-
-            tree.createInRange(minX - 30, maxX + 30);
-            tree.removeInRange(minRemoveX + 30,maxRemoveX - 30);
+            createAndRemoveInRange(minX,maxX,minRemoveX,maxRemoveX);
 
         }
 
-//        if (avatar.getCenter().x() > 0.5*windowController.getWindowDimensions().x()) {
-//            terrain.createInRange((int) (windowController.getWindowDimensions().x()) ,
-//                    (int) (windowController.getWindowDimensions().x()/2 + avatar.getCenter().x()));
-//        }
-//        getCamera().
+
+    }
+    private void createAndRemoveInRange(int minX, int maxX, int minRemoveX, int maxRemoveX){
+        terrain.createInRange(minX - INDENTATION_X_VALUE, maxX + INDENTATION_X_VALUE);
+        terrain.removeInRange(minRemoveX + INDENTATION_X_VALUE, maxRemoveX - INDENTATION_X_VALUE);
+
+        tree.createInRange(minX - INDENTATION_X_VALUE, maxX + INDENTATION_X_VALUE);
+        tree.removeInRange(minRemoveX + INDENTATION_X_VALUE,maxRemoveX - INDENTATION_X_VALUE);
 
     }
 }
