@@ -31,10 +31,10 @@ public class Avatar extends GameObject {
     private static ImageRenderable IDLE_RENDER;
     private float lastX;
     private float energy;
-    private static final String IDLE = "src/pepse/world/dan-idle.png";
-    private static final String WALK = "src/pepse/world/dan-walk.png";
-    private static final String WALK2 = "src/pepse/world/dan-walk2.png";
-    private static final String FLY = "src/pepse/world/dan-fly.png";
+    private static final String IDLE = "src/pepse/dan-idle.png";
+    private static final String WALK = "src/pepse/dan-walk.png";
+    private static final String WALK2 = "src/pepse/dan-walk2.png";
+    private static final String FLY = "src/pepse/dan-fly.png";
     private static  AnimationRenderable WALK_ANIMATION;
     private static Renderable FLY_RENDERABLE;
 

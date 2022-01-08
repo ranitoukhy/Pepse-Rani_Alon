@@ -1,18 +1,15 @@
 package pepse.world;
 
-import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import pepse.PerlinNoise;
+import pepse.util.PerlinNoise;
 import pepse.util.ColorSupplier;
 import pepse.util.EndlessWorldUtil;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 /**
