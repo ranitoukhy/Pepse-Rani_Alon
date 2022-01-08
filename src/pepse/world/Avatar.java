@@ -17,19 +17,21 @@ import java.awt.event.KeyEvent;
  * a class that represents the avatar of the game.
  */
 public class Avatar extends GameObject {
+    public static final int LAYER = Layer.DEFAULT;
+
     private static final float VELOCITY_X = 400;
     private static final float VELOCITY_Y = -300;
     private static final float GRAVITY = 600;
     private static final Color AVATAR_COLOR = Color.DARK_GRAY;
-    public static final int SIZE_FACTOR = 50;
-    public static final int MAX_ENERGY = 100;
-    public static final double ENERGY_SUM_FACTOR = 0.5;
-    public static final int MAX_Y_VELOCITY = 200;
-    public static final double TIME_BETWEEN_CLIPS = 0.5;
+    private static final int SIZE_FACTOR = 50;
+    private static final int MAX_ENERGY = 100;
+    private static final double ENERGY_SUM_FACTOR = 0.5;
+    private static final int MAX_Y_VELOCITY = 200;
+    private static final double TIME_BETWEEN_CLIPS = 0.5;
     private static ImageRenderable IDLE_RENDER;
     private float lastX;
     private float energy;
-    private static final String IDLE = "src/pepse/world/den-idle.png";
+    private static final String IDLE = "src/pepse/world/dan-idle.png";
     private static final String WALK = "src/pepse/world/dan-walk.png";
     private static final String WALK2 = "src/pepse/world/dan-walk2.png";
     private static final String FLY = "src/pepse/world/dan-fly.png";

@@ -2,6 +2,7 @@ package pepse.world.daynight;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
@@ -13,8 +14,10 @@ import java.awt.*;
  */
 public class SunHalo {
 
+    public static final int LAYER = Layer.BACKGROUND + 2;
     public static final String TAG = "halo";
     public static final float MULT_FACTOR = 1.25f;
+    public static Color COLOR = new Color(255, 255, 0, 50);
 
     /**
      * a function that creates a halo

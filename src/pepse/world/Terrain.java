@@ -20,7 +20,11 @@ import java.util.Random;
  * implements the Createable interface)
  */
 public class Terrain implements Creatable{
+    public static final int PERLIN_MULT = 15;
+    public static int TOP_LAYER = Layer.STATIC_OBJECTS;
+    public static int BOTTOM_LAYER = Layer.STATIC_OBJECTS+1;
     public static final String TOP_TAG = "top terrain";
+
     private final GameObjectCollection gameObjects;
     private final int groundLayer;
     private final float groundHeightAtX0;
@@ -46,62 +50,16 @@ public class Terrain implements Creatable{
         perlinNoise = new PerlinNoise();
         perlinNoise.setSeed(seed);
 
+        TOP_LAYER = groundLayer;
+        BOTTOM_LAYER = TOP_LAYER+1;
     }
 
     /**
      * a function that returns the ground height at a given x coordinate
      */
     public float groundHeightAt(float x) {
-        return groundHeightAtX0 + Block.SIZE * ((int)(perlinNoise.noise(x/Block.SIZE) * 28));
+        return groundHeightAtX0 + Block.SIZE * ((int)(perlinNoise.noise(x/Block.SIZE) * PERLIN_MULT));
     }
-
-//    public void createInRange(int minX, int maxX) {
-//
-//        minX = Block.ROUND.apply((float) minX);
-//        maxX = Block.ROUND.apply((float) maxX);
-//
-//        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate+=30) {
-//            if(EndlessWorldUtil.containsKey(blockXCoordinate))
-//                continue;
-//
-//            float preHeight = groundHeightAt(blockXCoordinate);
-//            int YCoordinate = Block.ROUND.apply(preHeight);
-//
-//            for (int i = 0; i < TERRAIN_DEPTH; i++ )
-//            {
-//                Renderable blockRenderable =
-//                        new RectangleRenderable(ColorSupplier.approximateColor(BASE_GROUND_COLOR));
-//
-//                Block block = new Block(new Vector2(blockXCoordinate,YCoordinate),
-//                        blockRenderable);
-//
-//                block.setTag(TOP_TAG);
-//                EndlessWorldUtil.addObject(blockXCoordinate, block,gameObjects, groundLayer);
-//
-////                gameObjects.addGameObject(block);
-////                gameObjects.addGameObject(block, groundLayer);
-//
-//                YCoordinate += Block.SIZE;
-//            }
-//
-//
-//
-//        }
-//    }
-////
-//    public void removeInRange(int minX, int maxX) {
-//        minX = Block.ROUND.apply((float) minX);
-//        maxX = Block.ROUND.apply((float) maxX);
-//
-//        for (int blockXCoordinate = minX; blockXCoordinate <= maxX; blockXCoordinate += 30) {
-//            if (!objectsAtDelta.containsKey(blockXCoordinate))
-//                continue;
-////            for (GameObject obj : objectsAtDelta.get(blockXCoordinate))
-////                EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
-//            EndlessWorldUtil.removeCol(blockXCoordinate, gameObjects);
-//            //objectsAtDelta.remove(blockXCoordinate);
-//        }
-//    }
 
     @Override
     public GameObjectCollection getGameObjects() {
@@ -124,12 +82,12 @@ public class Terrain implements Creatable{
             Block block = new Block(new Vector2(x,YCoordinate),
                     blockRenderable);
             //set tag only for the top block layer in order to avoid unnecessary handling of
-            // low - level brick collisions with the avatar
+            // low - level brick collisions with the leaves
             if(i == 0) {
                 block.setTag(TOP_TAG);
-                EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer);
+                EndlessWorldUtil.addObject(x, block,gameObjects, TOP_LAYER);
             } else {
-                EndlessWorldUtil.addObject(x, block,gameObjects, groundLayer+1);
+                EndlessWorldUtil.addObject(x, block,gameObjects, BOTTOM_LAYER);
             }
 
             YCoordinate += Block.SIZE;

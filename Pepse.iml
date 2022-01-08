@@ -7,28 +7,15 @@
     </content>
     <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/DanoGameLab/DanoGameLab.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/uni/y2/OOP/5/DanoGameLab.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file://$USER_HOME$/Downloads/DanoGameLab/src" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Documents/uni/y2/OOP/5/DanoGameLab" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$USER_HOME$/Documents/uni/y2/OOP/5/DanoGameLab/CodeExamples" />
           <root url="file://$USER_HOME$/Documents/uni/y2/OOP/5/DanoGameLab/src" />
         </SOURCES>
-        <jarDirectory url="file://$USER_HOME$/Documents/uni/y2/OOP/5/DanoGameLab" recursive="false" />
       </library>
     </orderEntry>
   </component>

@@ -2,6 +2,7 @@ package pepse.world.daynight;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
@@ -13,8 +14,19 @@ import java.awt.*;
  * a class responsible for the night transition and display
  */
 public class Night {
+    public static final int LAYER = Layer.FOREGROUND;
     public static final String TAG = "night";
     private static final Float MIDNIGHT_OPACITY = 0.5f;
+
+    /**
+     * creates a gameobject which will represent nights in the game
+     * @param gameObjects the game object collection that we'll add the sun into
+     * @param layer layer of the halo object
+     * @param windowDimensions the dimensions of the window
+     * @param cycleLength the length of one day/night cycle
+     * @return the constructed halo object
+     * @return
+     */
     public static GameObject create(
             GameObjectCollection gameObjects,
             int layer,

@@ -2,6 +2,7 @@ package pepse.world.daynight;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.components.Transition;
 import danogl.gui.rendering.OvalRenderable;
@@ -14,12 +15,14 @@ import java.awt.*;
  */
 public class Sun{
 
+    public static final int LAYER = Layer.BACKGROUND + 1;
     public static final String TAG = "sun";
-    public static final int SUN_SIZE = 100;
-    public static final int SUN_RATIO = 2;
-    public static final int INITIAL_Y_COORDINATE = 10;
-    public static final float FULL_CIRCLE_DEGREE = 360f;
-    public static final int INITIAL_DEGREE_LOCATION = 50;
+
+    private static final int SUN_SIZE = 100;
+    private static final int SUN_RATIO = 2;
+    private static final int INITIAL_Y_COORDINATE = 10;
+    private static final float FULL_CIRCLE_DEGREE = 360f;
+    private static final int INITIAL_DEGREE_LOCATION = 50;
 
     /**
      * a function that creates the sun of the game
@@ -67,8 +70,6 @@ public class Sun{
                 windowsDimensions.y()/2 - radius*(float)Math.cos(Math.toRadians(deg));
 
         return new Vector2(newX, newY);
-
-
     }
 
 
