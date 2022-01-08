@@ -1,6 +1,5 @@
 package pepse.world.trees;
 
-import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
@@ -11,7 +10,6 @@ import pepse.world.Block;
 import pepse.world.Creatable;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.function.Function;
@@ -94,7 +92,7 @@ public class Tree implements Creatable {
             EndlessWorldUtil.addObject(x, block, gameObjects, groundLayer + TREE_LAYER_OFFSET);
         }
 
-        TreeTop top = new TreeTop(gameObjects, x, (int) maxHeight, seed, groundLayer + LEAF_LAYER_OFFSET);
+        new TreeTop(gameObjects, x, (int) maxHeight, seed, groundLayer + LEAF_LAYER_OFFSET);
         gameObjects.layers().shouldLayersCollide(groundLayer, groundLayer + LEAF_LAYER_OFFSET, true);
     }
 }
