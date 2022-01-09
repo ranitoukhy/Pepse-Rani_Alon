@@ -1,0 +1,28 @@
+alon153
+rani.toukhy
+
+
+Differences between initial and final UML diagrams:
+When we wrote the initial UML diagram, we wrote it strictly based on the exercise PDF explanations. We wrote the API of every class and the connections between every class and package as the PDF described it. Later on, while writing the code, we realised that the Terrain and Tree classes behave somewhat alike. They’re main responsibility is to create (and remove) specific objects in a fixed range. Based on this realisation, we decided to create the Createable interface that the two classes implement. The main purpose of this interface is, of course, is to create and remove objects in a fixed range. Additionally,  in order to create the endless world feature of the game, we needed to keep track of every game object in the current game frame. We found it easiest and most elegant to create a utility called EndlessWorldUtil which we will describe in the next bullet paragraph.
+
+
+Explanation on how we created the endless world feature:
+We decided on this mechanism: assume the avatar moved x steps between the current frame and the last frame. Let us assume the avatar moved to the right. We build the ground and trees in the range windowDimensions.x -x, windowDimensions.x. In other words,  in each frame update, build ground and trees only in the necessary amount. In addition, remove all game objects that appear in range 0, x, for we no longer need them in the current frame.
+In order to make this mechanism work smoothly, we decided to create a class called EndlessWorldUtil. This class is responsible mainly for one thing: keep track of every game object that appears in a specific x coordinate, for all x coordinates in the current frame. In order to do so, in each frame, if the avatar moves - delete all game objects found on irrelevant x coordinates, and add game objects to relevant ones.
+
+
+Explanation on how we built the tree package:
+Tree class - as we wrote earlier - the tree class implements the Creatable interface. Given a fixed range (minX, maxX), we iterate through the x coordinates in this range. For each coordinate, pick a random number between 0 to 1. If the number is less than 0.1, we build a tree in the given coordinate. This mechanism ensures us that the probability of creating a tree is 1:10 as required. Removing objects in fixed range is even more straight forward - in the help of EndlessWorldUtil, we simply remove every game object found in a certain x coordinate for every coordinate in the range we get.
+For the leaves we created the class TreeTop which also implements the Creatable interface. Notice how tree top doesn't extend GameObject because it isn't a physical object rather just responsible for creating the physical leaves for a certain tree.
+We've also created an inner class Leaf for a single leaf. this is an inner class because there is no reason for any class other than TreeTop to have access to this object.
+In the leaf class we keep track of the current angle and scale of the leaf so we can change them with the TaskScheduler.
+
+
+Dilemmas and decisions we made throughout the writing of the code:
+Our first dilemma was wether we should create the Createable interface or not. On first thought - it makes a lot of sense. On second thought - we worried it was a case of false use of OOP principles and that it may just make the code more complex. Lastly, we decided to keep the interface, because we think that it makes more sense that the Terrain and Tree classes share an interface rather than they don’t.
+Second dilemma was how to implement the leaf movement. We thought of starting two transitions by the TaskScheduler but we thought it might be a bit too heavy to have each leaf have its own TaskScheduler that runs two Transitions over and over again. So we've decided to write two simple functions which just update the current angle and scale of a leaf and call them on repeat through the scheduler
+Third dilemma was how to keep track of every relevant game object in the current frame. It started as a simple hash map that maps every x coordinate to an array list of game objects that appears in it. While writing the code, we realised that it’s a bit more complex than that (though the main logic is pretty identical) - and so we decided to create a class that “keeps track” of every object in the current game frame.
+
+
+BONUS: make an avatar that looks like your favourite lecturer.
+We decided to create an avatar that looks like Dan Nirel from the campus.il videos! Alon is a talented artist as much as he is a talented programmer. By using pixel-art, he drew Dan Nirel, and we used his drawings in order to display the avatar.
